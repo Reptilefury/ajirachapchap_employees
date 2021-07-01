@@ -2,6 +2,7 @@ import 'package:ajira_chapchap/AllScreens/ProfessionDetails.dart';
 import 'package:ajira_chapchap/AllScreens/loginScreen.dart';
 import 'package:ajira_chapchap/AllScreens/mainscreen.dart';
 import 'package:ajira_chapchap/AllScreens/registrationScreen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
           RegistrationScreen.idScreen: (context) => RegistrationScreen(),
           LoginScreen.idScreen: (context) => LoginScreen(),
           MainScreen.idScreen: (context) => MainScreen(),
+          ProfessionScreen.idScreen: (context) => ProfessionScreen(),
           ProfessionScreen.idScreen: (context) => ProfessionScreen(),
 
 //test
