@@ -1,6 +1,9 @@
 import 'dart:async';
-import 'package:ajira_chapchap/Assistants/assistantMethods.dart';
+import 'package:ajirachapchap_employees/Assistants/assistantMethods.dart';
+import 'package:ajirachapchap_employees/configMaps.dart';
+import 'package:ajirachapchap_employees/main.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_geofire/flutter_geofire.dart';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -14,6 +17,9 @@ class HomeTabPage extends StatelessWidget {
   );
   Position currentPosition;
   var geoLocator = Geolocator();
+  String driverStatus = "Offline Now - Go Online? ";
+  Color  driverStatusTextColor = Colors.black,
+  bool isEmployeeAvailable  = false,
 
   //const ProfileTabPage({Key? key}) : super(key: key);
 
@@ -60,45 +66,65 @@ class HomeTabPage extends StatelessWidget {
           right: 0.0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-
-          children: [
-
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: RaisedButton(
-                onPressed: () {
-
-                },
-                color: Colors.green,
-                child: Padding(
-                  padding: EdgeInsets.all(17.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Online Now",
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,),
-                      ),
-                      Icon(
-                        Icons.phone_android,
-                        color: Colors.white,
-                        size: 26.0,
-                      ),
-                    ],
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: RaisedButton(
+                  onPressed: () {
+                    makeDriverOnlineNow();
+                    getLocationLiveUpdates();
+                  },
+                  color: Colors.green,
+                  child: Padding(
+                    padding: EdgeInsets.all(17.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          driverStatus,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Icon(
+                          Icons.phone_android,
+                          color: Colors.white,
+                          size: 26.0,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-
+            ],
           ),
         ),
-
       ],
     );
     //return Container();
+  }
+
+  void makeDriverOnlineNow()  async{
+
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    currentPosition = position;
+    Geofire.initialize("availableDrivers");
+    Geofire.setLocation(currentfirebaseUser.uid, currentPosition.latitude,
+        currentPosition.longitude);
+    ticketRequestRef.onValue.listen((event) {});
+  }
+
+  void getLocationLiveUpdates() {
+    homeTabPageStreamSubscription =
+        Geolocator.getPositionStream().listen((Position position) {
+      currentPosition = position;
+      Geofire.setLocation(
+          currentfirebaseUser.uid, position.latitude, position.longitude);
+      LatLng latLng = LatLng(position.latitude, position.longitude);
+      newGoogleMapController.animateCamera(CameraUpdate.newLatLng(latLng));
+    });
   }
 }

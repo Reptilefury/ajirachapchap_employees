@@ -1,12 +1,13 @@
-import 'package:ajira_chapchap/AllScreens/ProfessionDetails.dart';
-import 'package:ajira_chapchap/AllScreens/loginScreen.dart';
-import 'package:ajira_chapchap/AllScreens/mainscreen.dart';
-import 'package:ajira_chapchap/AllScreens/registrationScreen.dart';
+import 'package:ajirachapchap_employees/AllScreens/ProfessionDetails.dart';
+import 'package:ajirachapchap_employees/AllScreens/loginScreen.dart';
+import 'package:ajirachapchap_employees/AllScreens/mainscreen.dart';
+import 'package:ajirachapchap_employees/AllScreens/registrationScreen.dart';
+import 'package:ajirachapchap_employees/configMaps.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:ajira_chapchap/DataHandler/appData.dart';
+import 'package:ajirachapchap_employees/DataHandler/appData.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,6 +20,8 @@ import 'DataHandler/appData.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+   currentfirebaseUser = FirebaseAuth.instance.currentUser;
+
   runApp(MyApp());
 }
 //final databaseReference = FirebaseDatabase.instance.reference();
@@ -30,7 +33,9 @@ void main() async{
 }*/
  DatabaseReference usersRef = FirebaseDatabase.instance.reference().child("users");
 DatabaseReference employeesRef = FirebaseDatabase.instance.reference().child("employees");
- //final databaseReference = FirebaseDatabase.instance.reference();
+DatabaseReference ticketRequestRef = FirebaseDatabase.instance.reference().child("employees").child(currentfirebaseUser.uid).child("newTicket");
+
+//final databaseReference = FirebaseDatabase.instance.reference();
 
 
 class MyApp extends StatelessWidget {
@@ -44,7 +49,7 @@ class MyApp extends StatelessWidget {
          // fontFamily: "Brand Bold",
           primarySwatch: Colors.indigo,
         ),
-      initialRoute: MainScreen.idScreen,
+      initialRoute: FirebaseAuth.instance.currentUser == null ? LoginScreen.idScreen: MainScreen.idScreen ,
      //  initialRoute: FirebaseAuth.instance.currentUser == null ? LoginScreen.idScreen: MainScreen.idScreen,
         //initialRoute: MainScreen.idScreen,
         routes: {

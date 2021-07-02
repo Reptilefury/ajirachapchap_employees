@@ -1,13 +1,13 @@
-import 'package:ajira_chapchap/Assistants/requestAssistant.dart';
-import 'package:ajira_chapchap/DataHandler/appData.dart';
-import 'package:ajira_chapchap/Models/address.dart';
-import 'package:ajira_chapchap/Models/allUsers.dart';
-import 'package:ajira_chapchap/Models/directDetails.dart';
+import 'package:ajirachapchap_employees/Assistants/requestAssistant.dart';
+import 'package:ajirachapchap_employees/DataHandler/appData.dart';
+import 'package:ajirachapchap_employees/Models/address.dart';
+import 'package:ajirachapchap_employees/Models/allUsers.dart';
+import 'package:ajirachapchap_employees/Models/directDetails.dart';
 
 //import 'package:ajira_chapchap/Models/directDetails.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import 'package:ajira_chapchap/configMaps.dart';
+import 'package:ajirachapchap_employees/configMaps.dart';
 
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

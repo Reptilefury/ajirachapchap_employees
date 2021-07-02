@@ -1,9 +1,9 @@
-import 'package:ajira_chapchap/AllScreens/ProfessionDetails.dart';
-import 'package:ajira_chapchap/AllScreens/loginScreen.dart';
-import 'package:ajira_chapchap/AllScreens/mainscreen.dart';
-import 'package:ajira_chapchap/AllWidgets/progressDialog.dart';
-import 'package:ajira_chapchap/configMaps.dart';
-import 'package:ajira_chapchap/main.dart';
+import 'package:ajirachapchap_employees/AllScreens/ProfessionDetails.dart';
+import 'package:ajirachapchap_employees/AllScreens/loginScreen.dart';
+import 'package:ajirachapchap_employees/AllScreens/mainscreen.dart';
+import 'package:ajirachapchap_employees/AllWidgets/progressDialog.dart';
+import 'package:ajirachapchap_employees/configMaps.dart';
+import 'package:ajirachapchap_employees/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';

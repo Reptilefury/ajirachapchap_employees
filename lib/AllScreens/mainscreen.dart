@@ -1,7 +1,7 @@
-import 'package:ajira_chapchap/tabPages/earningsTabPage.dart';
-import 'package:ajira_chapchap/tabPages/homeTabPage.dart';
-import 'package:ajira_chapchap/tabPages/profileTabPage.dart';
-import 'package:ajira_chapchap/tabPages/ratingTabPage.dart';
+import 'package:ajirachapchap_employees/tabPages/earningsTabPage.dart';
+import 'package:ajirachapchap_employees/tabPages/homeTabPage.dart';
+import 'package:ajirachapchap_employees/tabPages/profileTabPage.dart';
+import 'package:ajirachapchap_employees/tabPages/ratingTabPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:ajira_chapchap/Assistants/assistantMethods.dart';
+import 'package:ajirachapchap_employees/Assistants/assistantMethods.dart';
 
 class RequestAssistant {
   static Future<dynamic> getRequest(String url) async {

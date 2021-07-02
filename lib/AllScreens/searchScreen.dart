@@ -1,12 +1,12 @@
-import 'package:ajira_chapchap/AllWidgets/Divider.dart';
-import 'package:ajira_chapchap/AllWidgets/progressDialog.dart';
-import 'package:ajira_chapchap/Assistants/requestAssistant.dart';
-import 'package:ajira_chapchap/Models/address.dart';
-import 'package:ajira_chapchap/configMaps.dart';
+import 'package:ajirachapchap_employees/AllWidgets/Divider.dart';
+import 'package:ajirachapchap_employees/AllWidgets/progressDialog.dart';
+import 'package:ajirachapchap_employees/Assistants/requestAssistant.dart';
+import 'package:ajirachapchap_employees/Models/address.dart';
+import 'package:ajirachapchap_employees/configMaps.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ajira_chapchap/DataHandler/appData.dart';
-import 'package:ajira_chapchap/Models/placePredictions.dart';
+import 'package:ajirachapchap_employees/DataHandler/appData.dart';
+import 'package:ajirachapchap_employees/Models/placePredictions.dart';
 
 class SearchScreen extends StatefulWidget {
   // const SearchScreen({Key? key}) : super(key: key);
