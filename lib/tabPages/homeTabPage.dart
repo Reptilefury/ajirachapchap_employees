@@ -4,24 +4,35 @@ import 'package:ajirachapchap_employees/configMaps.dart';
 import 'package:ajirachapchap_employees/main.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
-class HomeTabPage extends StatelessWidget {
-  Completer<GoogleMapController> _controllerGoogleMap = Completer();
-  GoogleMapController newGoogleMapController;
+class HomeTabPage extends StatefulWidget {
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
-  Position currentPosition;
-  var geoLocator = Geolocator();
-  String driverStatus = "Offline Now - Go Online? ";
-  Color  driverStatusTextColor = Colors.black,
-  bool isEmployeeAvailable  = false,
 
-  //const ProfileTabPage({Key? key}) : super(key: key);
+  @override
+  _HomeTabPageState createState() => _HomeTabPageState();
+}
+
+class _HomeTabPageState extends State<HomeTabPage> {
+  Completer<GoogleMapController> _controllerGoogleMap = Completer();
+
+  GoogleMapController newGoogleMapController;
+
+  Position currentPosition;
+
+  var geoLocator = Geolocator();
+
+  String EmployeeStatusText = "Offline Now - Go Online? ";
+
+  Color EmployeeStatusColor = Colors.black;
+
+  bool isEmployeeAvailable = false;
 
   void locatePosition() async {
     Position position = await Geolocator.getCurrentPosition(
@@ -45,7 +56,7 @@ class HomeTabPage extends StatelessWidget {
           //     padding: EdgeInsets.only(bottom: bottomPaddingOfMap),
           mapType: MapType.normal,
           myLocationButtonEnabled: true,
-          initialCameraPosition: _kGooglePlex,
+          initialCameraPosition: HomeTabPage._kGooglePlex,
           myLocationEnabled: true,
           zoomGesturesEnabled: true,
           zoomControlsEnabled: true,
@@ -71,17 +82,39 @@ class HomeTabPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: RaisedButton(
                   onPressed: () {
-                    makeDriverOnlineNow();
-                    getLocationLiveUpdates();
+                    if (isEmployeeAvailable != true) {
+                      makeEmployeeOnlineNow();
+                      getLocationLiveUpdates();
+                      setState(() {
+                        EmployeeStatusColor = Colors.green;
+                        EmployeeStatusText = "Online Now";
+                        isEmployeeAvailable = true;
+                      });
+                      displayToastMessage("You're online now", context);
+                    } else {
+                      makeEmployeeOfflineNow();
+                      setState(() {
+                        EmployeeStatusColor = Colors.black;
+                        EmployeeStatusText = "Offline Now - Go Online?";
+                        isEmployeeAvailable = false;
+                      });
+                      /*  Geofire.removeLocation(currentfirebaseUser.uid);
+                      ticketRequestRef.onDisconnect();
+                      ticketRequestRef.remove();
+                      ticketRequestRef=null;
+                      displayToastMessage("you're currently offline", context); */
+                      //makeEmployeeOfflineNow();
+                      displayToastMessage("you're currently offline", context);
+                    }
                   },
-                  color: Colors.green,
+                  color: EmployeeStatusColor,
                   child: Padding(
                     padding: EdgeInsets.all(17.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          driverStatus,
+                          EmployeeStatusText,
                           style: TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold,
@@ -106,12 +139,11 @@ class HomeTabPage extends StatelessWidget {
     //return Container();
   }
 
-  void makeDriverOnlineNow()  async{
-
+  void makeEmployeeOnlineNow() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     currentPosition = position;
-    Geofire.initialize("availableDrivers");
+    Geofire.initialize("availableEmployees");
     Geofire.setLocation(currentfirebaseUser.uid, currentPosition.latitude,
         currentPosition.longitude);
     ticketRequestRef.onValue.listen((event) {});
@@ -121,10 +153,25 @@ class HomeTabPage extends StatelessWidget {
     homeTabPageStreamSubscription =
         Geolocator.getPositionStream().listen((Position position) {
       currentPosition = position;
-      Geofire.setLocation(
-          currentfirebaseUser.uid, position.latitude, position.longitude);
+      if(isEmployeeAvailable == true)
+        {
+          Geofire.setLocation(
+              currentfirebaseUser.uid, position.latitude, position.longitude);
+        }
       LatLng latLng = LatLng(position.latitude, position.longitude);
       newGoogleMapController.animateCamera(CameraUpdate.newLatLng(latLng));
     });
+  }
+
+  void makeEmployeeOfflineNow() {
+    Geofire.removeLocation(currentfirebaseUser.uid);
+    ticketRequestRef.onDisconnect();
+    ticketRequestRef.remove();
+    ticketRequestRef = null;
+   // displayToastMessage("you're currently offline", context);
+  }
+
+  displayToastMessage(String message, BuildContext context) {
+    Fluttertoast.showToast(msg: message);
   }
 }

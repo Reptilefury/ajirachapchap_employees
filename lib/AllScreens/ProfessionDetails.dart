@@ -1,4 +1,6 @@
 import 'package:ajirachapchap_employees/AllScreens/mainscreen.dart';
+import 'package:ajirachapchap_employees/main.dart';
+import 'package:ajirachapchap_employees/AllScreens/mainscreen.dart';
 import 'package:ajirachapchap_employees/configMaps.dart';
 import 'package:ajirachapchap_employees/main.dart';
 import 'package:flutter/cupertino.dart';

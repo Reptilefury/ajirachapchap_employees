@@ -1,5 +1,6 @@
 import 'package:ajirachapchap_employees/AllScreens/registrationScreen.dart';
 import 'package:ajirachapchap_employees/AllWidgets/progressDialog.dart';
+import 'package:ajirachapchap_employees/AllWidgets/progressDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -157,7 +158,7 @@ class LoginScreen extends StatelessWidget {
     })).user;
     if ( firebaseUser != null) {
 
-      usersRef.child(firebaseUser.uid).once().then((DataSnapshot snap){
+      employeesRef.child(firebaseUser.uid).once().then((DataSnapshot snap){
         if (snap.value != null){
           Navigator.pushNamedAndRemoveUntil(context, MainScreen.idScreen, (route) => false);
           displayToastMessage("you're currently  logged in", context);
