@@ -6,7 +6,7 @@ class ProgressDialog extends StatelessWidget {
 
   // final ProgressDialog progressDialog;
   ProgressDialog({
-    this.message,
+     this.message,
     //this.progressDialog
   });
 

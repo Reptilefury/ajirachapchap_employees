@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:ajirachapchap_employees/Assistants/assistantMethods.dart';
+import 'package:ajirachapchap_employees/Notifications/pushNotificationService.dart';
 import 'package:ajirachapchap_employees/configMaps.dart';
 import 'package:ajirachapchap_employees/main.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -8,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeTabPage extends StatefulWidget {
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -33,6 +35,11 @@ class _HomeTabPageState extends State<HomeTabPage> {
   Color EmployeeStatusColor = Colors.black;
 
   bool isEmployeeAvailable = false;
+  @override
+  void initState() {
+    super.initState();
+    getCurrentEmployeeinfo();
+  }
 
   void locatePosition() async {
     Position position = await Geolocator.getCurrentPosition(
@@ -46,6 +53,14 @@ class _HomeTabPageState extends State<HomeTabPage> {
     //  String address =
     //await AssistantMethods.searchCoordinateAddress(position, context);
     //print("This is your address ::" + address);
+  }
+
+  void getCurrentEmployeeinfo() async {
+    currentfirebaseUser = (await FirebaseAuth.instance.currentUser);
+    PushNotificationService pushNotificationService = PushNotificationService();
+
+    pushNotificationService.initialize();
+    pushNotificationService.getToken();
   }
 
   @override
@@ -153,11 +168,10 @@ class _HomeTabPageState extends State<HomeTabPage> {
     homeTabPageStreamSubscription =
         Geolocator.getPositionStream().listen((Position position) {
       currentPosition = position;
-      if(isEmployeeAvailable == true)
-        {
-          Geofire.setLocation(
-              currentfirebaseUser.uid, position.latitude, position.longitude);
-        }
+      if (isEmployeeAvailable == true) {
+        Geofire.setLocation(
+            currentfirebaseUser.uid, position.latitude, position.longitude);
+      }
       LatLng latLng = LatLng(position.latitude, position.longitude);
       newGoogleMapController.animateCamera(CameraUpdate.newLatLng(latLng));
     });
@@ -168,7 +182,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
     ticketRequestRef.onDisconnect();
     ticketRequestRef.remove();
     ticketRequestRef = null;
-   // displayToastMessage("you're currently offline", context);
+    // displayToastMessage("you're currently offline", context);
   }
 
   displayToastMessage(String message, BuildContext context) {
